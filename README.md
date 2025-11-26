@@ -5,11 +5,11 @@ A Claude Code slash command for fixing bugs using TDD workflow.
 ## Installation
 
 ```bash
-# Clone to your claude-commands directory
-git clone git@github.com:claude-commands/command-fix-issue.git ~/projects/claude-commands/command-fix-issue
+# Clone to your preferred location
+git clone git@github.com:claude-commands/command-fix-issue.git <clone-path>/command-fix-issue
 
-# Create symlink
-ln -s ~/projects/claude-commands/command-fix-issue/fix-issue.md ~/.claude/commands/fix-issue.md
+# Symlink (use full path to cloned repo)
+ln -s <clone-path>/command-fix-issue/fix-issue.md ~/.claude/commands/fix-issue.md
 ```
 
 ## Usage
@@ -46,5 +46,5 @@ This command follows Test-Driven Development:
 ## Updates
 
 ```bash
-cd ~/projects/claude-commands/command-fix-issue && git pull
+cd <clone-path>/command-fix-issue && git pull
 ```
