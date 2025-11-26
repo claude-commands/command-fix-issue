@@ -14,7 +14,7 @@ ln -s <clone-path>/command-fix-issue/fix-issue.md ~/.claude/commands/fix-issue.m
 
 ## Usage
 
-```
+```text
 /fix-issue 456
 ```
 
@@ -33,6 +33,7 @@ Where `456` is the GitHub issue number.
 ## TDD Workflow
 
 This command follows Test-Driven Development:
+
 - **Red**: Write a test that fails, proving the bug exists
 - **Green**: Write minimal code to make the test pass
 - **Refactor**: Clean up if needed (optional)
