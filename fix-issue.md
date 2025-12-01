@@ -19,13 +19,14 @@ This command diagnoses and fixes a bug from a GitHub issue using TDD.
 
 **Workflow:**
 
-1. Fetch issue details and reproduction steps
-2. Explore codebase to identify root cause
-3. Create fix branch (`fix/<issue>-<desc>`)
-4. Write failing test (Red)
-5. Implement minimal fix (Green)
-6. Verify (tests, linting, type checking)
-7. Create PR referencing the issue
+1. Check for duplicate/related issues
+2. Fetch issue details and reproduction steps
+3. Explore codebase to identify root cause
+4. Create fix branch (`fix/<issue>-<desc>`)
+5. Write failing test (Red)
+6. Implement minimal fix (Green)
+7. Verify (tests, linting, type checking)
+8. Create PR referencing the issue
 
 Ask the user: "What issue number would you like to fix?"
 
@@ -35,12 +36,45 @@ Ask the user: "What issue number would you like to fix?"
 
 Analyze and fix GitHub issue #$ARGUMENTS. Follow these steps:
 
-1. **Understand**: Use `gh issue view $ARGUMENTS` to get issue details and comments
-2. **Explore**: Search the codebase for relevant files and identify root cause
-3. **Branch**: Create a fix branch (`fix/$ARGUMENTS-<short-desc>`)
-4. **Test (Red)**: Write a test that reproduces the bug and fails
-5. **Fix (Green)**: Implement the minimal fix to make the test pass
-6. **Verify**: Run the full test suite, linting, and type checking
-7. **Submit**: Commit, push, and create a PR referencing the issue
+1. **Check for Duplicates**: Search for related issues before starting work
+
+   ```bash
+   gh issue view $ARGUMENTS --json title,body,labels
+   ```
+
+   Extract key terms from the issue title and body (error messages, component names, symptoms).
+   Search all issues:
+
+   ```bash
+   gh issue list --state all --limit 50 --search "<key terms>"
+   ```
+
+   **If potential duplicates found**, present them:
+
+   | Issue | State | Title |
+   |-------|-------|-------|
+   | #NNN | open/closed | Issue title |
+
+   Ask user: "Potential related issues found. How would you like to proceed?"
+
+   | Option | Action |
+   |--------|--------|
+   | Continue | Proceed with fix (not a duplicate) |
+   | Skip | Stop - user will handle manually |
+   | Link | Comment linking related issues, then continue |
+
+   **If "Link" selected:**
+
+   ```bash
+   gh issue comment $ARGUMENTS --body "Potentially related to #NNN - investigating"
+   ```
+
+2. **Understand**: Use `gh issue view $ARGUMENTS` to get issue details and comments
+3. **Explore**: Search the codebase for relevant files and identify root cause
+4. **Branch**: Create a fix branch (`fix/$ARGUMENTS-<short-desc>`)
+5. **Test (Red)**: Write a test that reproduces the bug and fails
+6. **Fix (Green)**: Implement the minimal fix to make the test pass
+7. **Verify**: Run the full test suite, linting, and type checking
+8. **Submit**: Commit, push, and create a PR referencing the issue
 
 Use extended thinking for complex analysis.
